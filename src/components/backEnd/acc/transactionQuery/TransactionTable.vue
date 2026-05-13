@@ -5,7 +5,7 @@
       hover
       :items="items"
       :fields="fields"
-      @click:row="rowClicked"
+      @row-click:row="rowClicked"
   />
 
 </template>

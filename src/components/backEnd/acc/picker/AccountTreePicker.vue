@@ -84,7 +84,7 @@
 
 <script>
 
-import {getAccountTree} from "../api/chartOfAccount"
+import {getAccountTree} from "../../../../store/modules/accounts/chartOfAccount"
 import AccountTreeNode from "./AccountTreeNode.vue"
 
 export default {

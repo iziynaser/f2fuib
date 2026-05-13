@@ -20,11 +20,12 @@
 
 <script>
 
+import {mapGetters} from "vuex";
 import TransactionSearchForm from "./TransactionSearchForm.vue"
 import TransactionTable from "./TransactionTable.vue"
 import TransactionDetail from "./TransactionDetail.vue"
 
-import {searchTransactions} from "./transactionService"
+//import {searchTransactions} from "../../../../store/modules/trans/transactionService"
 
 export default{
 
@@ -33,26 +34,24 @@ export default{
     TransactionTable,
     TransactionDetail
   },
-
-  data(){
-
-    return{
-
-      transactions:[]
-
-    }
-
+  computed:{
+    ...mapGetters("transactions",[
+        "transactions",
+        "loading"
+    ])
   },
+  data(){ return {} }
+,
 
   methods:{
 
     async search(filter){
-
-      const res=await searchTransactions(filter)
-
-      this.transactions=res.data.content
-
-    },
+      await this.$store.dispatch(
+          "transactions/searchTransactions",
+          filter
+      )
+    }
+,
 
     openDetail(row){
 

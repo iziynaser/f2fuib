@@ -10,12 +10,11 @@
 
         <account-tree
             :nodes="tree"
-            :selected-id="selected ? selected.id : null"
+            :selected-id="selectedId"
             @select="selectAccount"
         />
 
       </b-col>
-
 
       <b-col cols="3">
 
@@ -33,7 +32,6 @@
             افزودن زیر حساب
           </b-button>
 
-
           <b-button
               block
               variant="primary"
@@ -43,7 +41,6 @@
           >
             ویرایش
           </b-button>
-
 
           <b-button
               block
@@ -57,7 +54,6 @@
         </b-card>
 
       </b-col>
-
 
       <b-col>
 
@@ -75,7 +71,6 @@
 
     </b-row>
 
-
     <account-form-modal
         ref="formModal"
         @saved="loadTree"
@@ -85,72 +80,85 @@
 
 </template>
 
-
-
 <script>
+
+import { mapGetters } from "vuex"
 
 import AccountTree from "./AccountTree.vue"
 import AccountFormModal from "./AccountFormModal.vue"
 
-import {getAccountTree,deleteAccount} from "../api/chartOfAccount"
+export default {
 
-export default{
+  name: "ChartOfAccounts",
 
-  name:"ChartOfAccounts",
-
-  components:{
+  components: {
     AccountTree,
     AccountFormModal
   },
 
-  data(){
-    return{
-      tree:[],
-      selected:null
+  data() {
+    return {
+      selected: null
     }
   },
 
-  mounted(){
+  computed: {
+
+    ...mapGetters("account", [
+      "tree",
+      "loading"
+    ]),
+
+    selectedId() {
+
+      if (!this.selected) {
+        return null
+      }
+
+      return this.selected.id
+
+    }
+
+  },
+
+  mounted() {
     this.loadTree()
   },
 
-  methods:{
+  methods: {
 
-    async loadTree(){
-
-      const res=await getAccountTree()
-
-      this.tree=res.data
-
+    async loadTree() {
+      await this.$store.dispatch("account/fetchTree")
     },
 
-    selectAccount(node){
-
-      this.selected=node
-
+    selectAccount(node) {
+      this.selected = node
     },
 
-    createChild(){
-
+    createChild() {
       this.$refs.formModal.openCreate(this.selected)
-
     },
 
-    editAccount(){
-
+    editAccount() {
       this.$refs.formModal.openEdit(this.selected)
-
     },
 
-    async deleteAccountAction(){
+    async deleteAccountAction() {
 
-      if(!confirm("حذف حساب انجام شود؟")) return
+      if (!this.selected) {
+        return
+      }
 
-      await deleteAccount(this.selected.id)
+      if (!confirm("حذف حساب انجام شود؟")) {
+        return
+      }
 
-      this.selected=null
+      await this.$store.dispatch(
+          "account/deleteAccount",
+          this.selected.id
+      )
 
-      this.loadTree()
+      this.selected = null
 
     }
 
@@ -159,7 +167,6 @@ export default{
 }
 
 </script>
-
 
 <style>
 

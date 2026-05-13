@@ -8,17 +8,17 @@
         @click="select"
     >
 
-<span
-    v-if="hasChildren"
-    class="toggle"
-    @click.stop="toggle"
->
-{{expanded ? "▼" : "▶"}}
-</span>
+      <span
+          v-if="hasChildren"
+          class="toggle"
+          @click.stop="toggle"
+      >
+        {{expanded ? "▼" : "▶"}}
+      </span>
 
       <span class="title">
-{{node.code}} - {{node.name}}
-</span>
+        {{node.code}} - {{node.name}}
+      </span>
 
     </div>
 
@@ -32,7 +32,7 @@
           :key="c.id"
           :node="c"
           :selected-id="selectedId"
-          @select="$emit('select',$event)"
+          @select="childSelect"
       />
 
     </ul>
@@ -41,40 +41,49 @@
 
 </template>
 
-
 <script>
 
-export default{
+export default {
 
-  name:"AccountNode",
+  name: "AccountNode",
 
-  props:{
-    node:Object,
-    selectedId:Number
+  props: {
+    node: Object,
+    selectedId: Number
   },
 
-  data(){
-    return{
-      expanded:false
+  data() {
+    return {
+      expanded: false
     }
   },
 
-  computed:{
+  computed: {
 
-    hasChildren(){
-      return this.node.children && this.node.children.length>0
+    hasChildren() {
+
+      if (!this.node.children) {
+        return false
+      }
+
+      return this.node.children.length > 0
+
     }
 
   },
 
-  methods:{
+  methods: {
 
-    toggle(){
-      this.expanded=!this.expanded
+    toggle() {
+      this.expanded = !this.expanded
     },
 
-    select(){
-      this.$emit("select",this.node)
+    select() {
+      this.$emit("select", this.node)
+    },
+
+    childSelect(node) {
+      this.$emit("select", node)
     }
 
   }
@@ -82,7 +91,6 @@ export default{
 }
 
 </script>
-
 
 <style scoped>
 

@@ -1,6 +1,6 @@
 <template>
 
-  <ul class="tree">
+  <ul className="tree">
 
     <account-node
         v-for="n in nodes"
@@ -14,28 +14,27 @@
 
 </template>
 
-
 <script>
 
 import AccountNode from "./AccountNode.vue"
 
-export default{
+export default {
 
-  name:"AccountTree",
+  name: "AccountTree",
 
-  components:{
+  components: {
     AccountNode
   },
 
-  props:{
-    nodes:Array,
-    selectedId:Number
+  props: {
+    nodes: Array,
+    selectedId: Number
   },
 
-  methods:{
+  methods: {
 
-    select(node){
-      this.$emit("select",node)
+    select(node) {
+      this.$emit("select", node)
     }
 
   }
@@ -44,12 +43,11 @@ export default{
 
 </script>
 
-
 <style scoped>
 
-.tree{
-  list-style:none;
-  padding:0;
+.tree {
+  list-style: none;
+  padding: 0;
 }
 
 </style>

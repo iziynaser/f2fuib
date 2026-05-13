@@ -10,18 +10,17 @@
     <b-row>
 
       <b-col>
-        <p>شماره سند: {{transaction.documentNumber}}</p>
-        <p>تاریخ: {{transaction.transactionDate}}</p>
-        <p>شرح: {{transaction.description}}</p>
-        <p>وضعیت: {{transaction.status}}</p>
+        <p>شماره سند: {{ transaction && transaction.transactionNumber }}</p>
+        <p>تاریخ: {{ transaction.transactionDate }}</p>
+        <p>شرح: {{ transaction.description }}</p>
+        <p>وضعیت: {{ transaction.transactionStatus }}</p>
       </b-col>
 
     </b-row>
 
-
     <b-table
         striped
-        :items="transaction.lines"
+        :items="details"
         :fields="fields"
     />
 
@@ -29,26 +28,23 @@
 
 </template>
 
-
 <script>
 
-import {getTransaction} from "./transactionService"
+import { mapGetters } from "vuex"
 
-export default{
+export default {
 
-  data(){
+  data() {
 
-    return{
+    return {
 
-      transaction:{lines:[]},
+      fields: [
 
-      fields:[
-
-        {key:"accountCode",label:"کد حساب"},
-        {key:"accountName",label:"نام حساب"},
-        {key:"debit",label:"بدهکار"},
-        {key:"credit",label:"بستانکار"},
-        {key:"description",label:"شرح"}
+        { key: "accountCode", label: "کد حساب" },
+        { key: "accountName", label: "نام حساب" },
+        { key: "debit", label: "بدهکار" },
+        { key: "credit", label: "بستانکار" },
+        { key: "description", label: "شرح" }
 
       ]
 
@@ -56,13 +52,37 @@ export default{
 
   },
 
-  methods:{
+  computed: {
 
-    async open(id){
+    ...mapGetters("transactions", [
 
-      const res=await getTransaction(id)
+      "transaction"
 
-      this.transaction=res.data
+    ]),
+
+    details() {
+
+      if (
+          this.transaction &&
+          this.transaction.details
+      ) {
+        return this.transaction.details
+      }
+
+      return []
+
+    }
+
+  },
+
+  methods: {
+
+    async open(id) {
+
+      await this.$store.dispatch(
+          "transactions/fetchTransaction",
+          id
+      )
 
       this.$refs.modal.show()
 

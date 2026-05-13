@@ -70,12 +70,15 @@ import createPayment from './components/backEnd/payment/createPayment.vue'
 
 import FinAccountMain from './components/backEnd/acc/fin/FinAccountMain'
 
+import transRoutes from "@/components/backEnd/acc/transactions/transRoutes";
+
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
+      ...transRoutes,
     {
       path: '/front/FrontEnd',
       name: 'FrontEnd',

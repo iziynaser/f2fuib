@@ -86,10 +86,11 @@ export default {
       this.$emit("select",this.account)
     },
 
-    confirmNode(){
-      if(this.account.postable === true)
-        this.$emit("confirm",this.account)
+    confirmNode() {
+      if (this.hasChildren) return   // فقط برگ‌ها را تأیید کن
+      this.$emit("confirm", this.account)
     }
+
 
   }
 

@@ -1,4 +1,4 @@
-import api from './api'
+import * as api from './api'
 
 const state = {
     transactions: [],
@@ -14,6 +14,13 @@ const getters = {
     accounts: state => state.accounts,
     loading: state => state.loading,
     error: state => state.error,
+    accountsOptions: state => [
+        { value: null, text: "انتخاب حساب..." },
+        ...state.accounts.map(a => ({
+            value: a.id,
+            text: a.code ? `${a.code} - ${a.name}` : a.name
+        }))
+    ]
 }
 
 const mutations = {
@@ -61,12 +68,12 @@ const actions = {
 
     async createTransaction({ dispatch }, payload) {
         await api.createTransaction(payload)
-        dispatch('fetchTransactions')
+        await dispatch('fetchTransactions')
     },
 
     async deleteTransaction({ dispatch }, id) {
         await api.deleteTransaction(id)
-        dispatch('fetchTransactions')
+        await dispatch('fetchTransactions')
     },
 
     async postTransaction(_, id) {

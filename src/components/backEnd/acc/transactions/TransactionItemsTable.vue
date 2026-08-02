@@ -19,13 +19,15 @@
       </b-thead>
 
       <b-tbody>
-        <b-tr v-for="(line, idx) in internalValue" :key="idx">
+        <b-tr v-for="(line, idx) in internalValue" :key="line.uid">
           <b-td class="text-right">
-            <b-form-select
+
+            <AccountTreePicker
+                id="tree-picker"
                 v-model="line.accountId"
-                :options="accountOptions"
                 :disabled="readonly"
             />
+
           </b-td>
 
           <b-td>
@@ -62,8 +64,14 @@
 </template>
 
 <script>
+
+import AccountTreePicker from "../picker/AccountTreePicker.vue";
+
 export default {
   name: "TransactionItemsTable",
+  components:{
+    AccountTreePicker
+  },
   props: {
     value: { type: Array, required: true }, // v-model
     readonly: { type: Boolean, default: false },
@@ -99,7 +107,9 @@ export default {
       this.$emit("totals", { debit, credit });
     },
     addLine() {
-      this.internalValue.push({ id: null, accountId: null, debit: 0, credit: 0, description: "" });
+      this.internalValue.push({
+        uid: Date.now()+ Math.random(),
+        id: null, accountId: null, debit: 0, credit: 0, description: "" });
       this.emitAll();
     },
     removeLine(idx) {

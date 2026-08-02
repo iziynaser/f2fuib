@@ -1,4 +1,4 @@
-const APP_URL = 'http://localhost:8080/f2f'
+const APP_URL = 'http://localhost:8080/api'
 const IMG_URL = 'http://localhost:8080'
 const FRONT_URL = 'http://localhost:8080/front'
 

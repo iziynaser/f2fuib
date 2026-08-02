@@ -36,6 +36,8 @@ import interceptorSetup from './interceptors'
 //test default persian align and trl
 import { f2fChangeLocale } from './f2fUtils';
 
+import "regenerator-runtime/runtime" ;//for async,await
+
 //add new calendr for event management
 //import moment from 'vue-jalali-moment'
 //Vue.use(moment)

@@ -9,10 +9,10 @@ export default [
         name: 'transactions.create',
         component: () => import('@/components/backEnd/acc/transactions/TransactionForm.vue'),
     },
-    // {
-    //     path: '/transactions/:id',
-    //     name: 'transactions.detail',
-    //     component: () => import('@/components/backEnd/acc/transactions/TransactionDetail.vue'),
-    //     props: true,
-    // },
+    {
+        path: '/transactions/:id',
+        name: 'transactions.detail',
+        component: () => import('@/components/backEnd/acc/transactions/TransactionForm.vue'),
+        props: true,
+    },
 ]

@@ -86,17 +86,6 @@
         <b-col md="3">
           <b-form-group label="حساب">
 
-<!--            <b-form-input-->
-<!--                v-model="filter.accountId"-->
-<!--            />-->
-<!--            <account-tree-picker-->
-<!--                v-model="filter.accountId"-->
-<!--            />-->
-<!--            <account-tree-picker-->
-<!--                v-model="filter.accountId"-->
-<!--                @change="onAccountChanged"-->
-<!--            />-->
-
             <account-tree-picker
                 v-model="filter.accountId"
                 @change="onAccountChanged"

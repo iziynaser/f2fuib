@@ -15,6 +15,7 @@ export function getTransaction(id){
 }
 
 export function getTransactions(params) {
+        console.log('call getTransactions');
         return axios.get("/transactions", { params });
     }
 
